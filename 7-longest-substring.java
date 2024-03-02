@@ -63,11 +63,11 @@ public class Solution {
     int currentCount = 1;
     int maxIndex = 0;
     int currentIndex = 0;
-    String currentMaxLetter = input.substring(0,1);
+    String currentLetter = input.substring(0,1);
 
     for (int i = 1; i < input.length(); i++) {
-      String currentLetter = input.substring(i, i+1);
-      if (currentLetter.equals(currentMaxLetter)) {
+      String currentCheckLetter = input.substring(i, i+1);
+      if (currentCheckLetter.equals(currentLetter)) {
         currentCount++;
         if (currentCount > maxCount) {
           maxCount = currentCount;
@@ -77,7 +77,7 @@ public class Solution {
       else {
         currentIndex = i;
         currentCount = 1;
-        currentMaxLetter = currentLetter;
+        currentLetter = currentCheckLetter;
       }
     }
 
