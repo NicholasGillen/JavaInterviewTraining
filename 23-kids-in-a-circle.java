@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 // Currently implemented assuming count starts again from first child after one is eliminated
 // Try an implementaiton of other version (harder) - just need to add previous removal index 
-// to current removal index?
+// to current and then modulo
 public class Solution {
 
   @Test
@@ -49,6 +49,18 @@ public class Solution {
     assertEquals(expectedKidRemaining, calculatedKidRemaining);
   }
 
+  
+    @Test
+  public void numWordsMultipleOfNumKids() {
+    int numKids = 3;
+    int numWords = 6;
+
+    int expectedKidRemaining = 1;
+    int calculatedKidRemaining = findRemainingKid(numWords, numKids);
+
+    assertEquals(expectedKidRemaining, calculatedKidRemaining);
+  }
+
       @Test
   public void kidsMoreThanWords3() {
     int numKids = 7;
@@ -69,8 +81,11 @@ public class Solution {
       System.out.println("current array is: ");
       for (int i : kidsArray) System.out.println(i);
       int removalIndex = -1;
-      if (n <= kidsArray.length) {
+      if (n < kidsArray.length) {
         removalIndex = n-1;
+      }
+      else if (n % kidsArray.length == 0) {
+        removalIndex = kidsArray.length - 1;
       }
       else {
         removalIndex = (n % kidsArray.length) - 1;
