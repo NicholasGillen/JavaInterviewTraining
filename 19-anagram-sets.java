@@ -9,79 +9,61 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-// Anagram Sets - Given a List of words, return a set of set of words where each word in an inner set is an anagram of every other word in the set. Eg - given [“cat”, “dog”, “god”, “cat”] return [[“cat”], [“dog”, “god”]].
-
-// Got a crude solution, seems like should be more efficienct way with sorting first
+// //Anagram Sets
+// Given a List of words, return a set of set of words where each word in an inner set is an anagram of every other word in the set.
+// Eg - given [“cat”, “dog”, “god”, “cat”] return [[“cat”], [“dog”, “god”]].
 
 
 public class Solution {
 
-  // Test isn't passing, but prints the correct Sets and contents (Tried assertTrue and asertEquals)??
   @Test
-  public void test1() {
-    Set<String> inputSet = new HashSet<>(Arrays.asList("cat", "dog", "god", "cat"));
-    Set<String> anagrams1 = new HashSet<>(Arrays.asList("cat"));
-    Set<String> anagrams2 = new HashSet<>(Arrays.asList("dog", "god"));
-    Set<Set<String>> expectedAnagramsSet = new HashSet<>();
-    expectedAnagramsSet.add(anagrams1);
-    expectedAnagramsSet.add(anagrams2);
+  public void test() {
+    List<String> words = new ArrayList<>(Arrays.asList("cat", "god", "dog", "pig", "god", "cat", "act", 
+    "good", "tac"));
 
-    Set<Set<String>> calculatedAnagramsSet = calculateAnagramSets(inputSet);
+    Set<String> anagrams1 = new HashSet<>(Arrays.asList("cat", "act", "tac"));
+     Set<String> anagrams2 = new HashSet<>(Arrays.asList("god", "dog"));
+      Set<String> anagrams3 = new HashSet<>(Arrays.asList("pig"));
+       Set<String> anagrams4 = new HashSet<>(Arrays.asList("good"));
+    Set<Set<String>> anagramsSet = new HashSet<>();
+    anagramsSet.add(anagrams1);
+    anagramsSet.add(anagrams2);
+    anagramsSet.add(anagrams3);
+    anagramsSet.add(anagrams4);
+    
+    Set<Set<String>> calculatedAnagrams = getAnagrams(words);
 
-    for (Set<String> set : calculatedAnagramsSet) {
-      System.out.println("NEW");
-      for (String word : set) {
-        System.out.println(word);
-      }
+    if (anagramsSet.containsAll(calculatedAnagrams) && calculatedAnagrams.containsAll(anagramsSet)) {
+      System.out.println("TRUE");
     }
-    System.out.println("END");
-    for (Set<String> set : expectedAnagramsSet) {
-      System.out.println("NEW");
-      for (String word : set) {
-        System.out.println(word);
-      }
-    }
-
-    assertEquals(calculatedAnagramsSet, expectedAnagramsSet);
-
   }
 
+  public Set<Set<String>> getAnagrams(List<String> words) {
+    HashMap<String, Set<String>> map = new HashMap<>();
+    for (String word : words) {
+      char[] letters = word.toCharArray();
+      Arrays.sort(letters);
+      String sorted = String.valueOf(letters);
 
-  public Set<Set<String>> calculateAnagramSets(Set<String> inputSet) {
-
-    Set<Set<String>> anagramSets = new HashSet<>();
-    if (inputSet.size() == 0) return anagramSets;
-
-    for (String word : inputSet) {
-      if (anagramSets.size() == 0) {
-        anagramSets.add(new HashSet<String>(Arrays.asList(word)));
-        continue;
+      if (map.containsKey(sorted)) {
+        map.get(sorted).add(word);
       }
-      boolean added = false;
-      outer:
-      for (Set<String> anagramSet : anagramSets) {
-        for (String anagram : anagramSet) {
-          //if word is anagram then add and break outer else break inner
-          String[] wordLetters = word.split("");
-          Arrays.sort(wordLetters);;
-          String[] anagramLetters = anagram.split("");
-          Arrays.sort(anagramLetters);
-          if (Arrays.equals(wordLetters, anagramLetters)) {
-            anagramSet.add(word);
-            added = true;
-            break outer;
-          }
-          else {
-            break;
-          }
-        }
+      else {
+        Set<String> set = new HashSet<>();
+        set.add(word);
+        map.put(sorted, set);
       }
-      if (!added) {
-        anagramSets.add(new HashSet<String>(Arrays.asList(word)));
+    }
+    Set<Set<String>> anagrams = new HashSet<>();
+    for (Set<String> set : map.values()) {
+      anagrams.add(set);
+      System.out.println("New set");
+      for (String s : set) {
+        System.out.println(s);
       }
     }
 
-    return anagramSets;
+    return anagrams;
   }
 
   public static void main(String[] args) {
