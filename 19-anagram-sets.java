@@ -57,12 +57,7 @@ public class Solution {
     Set<Set<String>> anagrams = new HashSet<>();
     for (Set<String> set : map.values()) {
       anagrams.add(set);
-      System.out.println("New set");
-      for (String s : set) {
-        System.out.println(s);
-      }
     }
-
     return anagrams;
   }
 
