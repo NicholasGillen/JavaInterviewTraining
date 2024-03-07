@@ -63,7 +63,10 @@ public class Solution {
       for (int j = i; j < array.length; j++) {
         sum += array[j];
         if (sum >= target) {
-          minLength = j - i + 1;
+          int length = j - i + 1;
+          if (length < minLength) {
+            minLength = length;
+          }
           break;
         }
       }
