@@ -55,9 +55,29 @@ public class Solution {
     assertEquals(expected, calculatedMinimum);
   }
 
+   @Test
+  public void test5() {
+    int[] array = {9,1,2,3,4,5};
+    int target = 8;
+    int expected = 1;
+    int calculatedMinimum = caclulateMinimumLength(array, target);
+
+    assertEquals(expected, calculatedMinimum);
+  }
+
+     @Test
+  public void testNoMatch() {
+    int[] array = {9,1,2,3,4,5};
+    int target = 800;
+    int expected = 0;
+    int calculatedMinimum = caclulateMinimumLength(array, target);
+
+    assertEquals(expected, calculatedMinimum);
+  }
+
   public int caclulateMinimumLength(int[] array, int target) {
 
-    int minLength = 0;
+    int minLength = array.length+1;
     for (int i = 0; i < array.length; i++) {
       int sum = 0;
       for (int j = i; j < array.length; j++) {
@@ -72,7 +92,7 @@ public class Solution {
       }
     }
 
-    return minLength;
+    return minLength == array.length + 1 ? 0 : minLength;
   }
 
   public static void main(String[] args) {
